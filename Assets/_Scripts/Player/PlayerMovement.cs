@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         speed = 20;
-		jump = 1500;
-		gravity = -5000;
+		jump = 2000;
+		gravity = -7000;
 		isFalling = false;
 
     }
@@ -37,15 +37,15 @@ public class PlayerMovement : MonoBehaviour
 
 	public void SideWays(int num)
 	{
-		float xPos = transform.position.x;
+		float posX = transform.position.x;
 		switch (num)
 		{
 		case 1:
-		xPos += 1.5f;
+		transform.position = new Vector3 (posX-=1.5f,transform.position.y,transform.position.z);
 		break;
 
 		case 2:
-		xPos -= 1.5f;
+		transform.position = new Vector3 (posX+=1.5f,transform.position.y,transform.position.z);
 		break;
 		}
 		
