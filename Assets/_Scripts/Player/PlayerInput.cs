@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour 
 {
@@ -11,8 +12,9 @@ public class PlayerInput : MonoBehaviour
 	private void Start()
 	{
 		playerMovement = GetComponent<PlayerMovement> ();
-		minSwipeDistX = 20f;
-		minSwipeDistY = 10f;
+		minSwipeDistX = 100f;
+		minSwipeDistY = 50f;
+
 	}
 	void Update()
 	{
@@ -31,25 +33,28 @@ public class PlayerInput : MonoBehaviour
 					float swipeValue = Mathf.Sign(touch.position.y - startPos.y);
 					if (swipeValue > 0)
 					{
+						//up
 						playerMovement.Jump ();
 					}
 					else if (swipeValue < 0)
 					{
+						//down
 						playerMovement.Slide ();
 					}
 				}
-
 				float swipeDistHorizontal = (new Vector3(touch.position.x,0, 0) - new Vector3(startPos.x, 0, 0)).magnitude;
 				if (swipeDistHorizontal > minSwipeDistX) 
 				{
 					float swipeValue = Mathf.Sign(touch.position.x - startPos.x);
-					if (swipeValue > 0)//right swipe
+					if (swipeValue > 0)
 					{
-					playerMovement.SideWays (2);
+						//right
+						playerMovement.SideWays (2);
 					}
 					else if (swipeValue < 0)
 					{
-					playerMovement.SideWays (1);
+						//left
+						playerMovement.SideWays (1);
 					}
 				}
 			break;

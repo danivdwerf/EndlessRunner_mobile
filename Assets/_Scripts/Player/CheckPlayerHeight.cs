@@ -3,21 +3,18 @@ using System.Collections;
 
 public class CheckPlayerHeight : MonoBehaviour 
 {
-    //private Die die;
-    private PlayerMovement playerMovement;
+    private Die die;
+
     private void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        //die = GetComponent<Die>();
+        die = GetComponent<Die>();
     }
 
     private void Update()
     {
-		/*
-        if (transform.position.y <= -1&&!playerMovement.Death)
+        if (transform.position.y <= -1)
         {
-            //die.KillPlayer();
+			die.KillPlayer();
         }
-*/
     }
 }

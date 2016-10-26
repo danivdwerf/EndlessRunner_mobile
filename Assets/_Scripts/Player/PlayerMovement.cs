@@ -7,8 +7,13 @@ public class PlayerMovement : MonoBehaviour
 	private int speed;
 	private int gravity;
 	private int jump;
-
 	private bool isFalling;
+	private RaycastHit hit;
+	private PlayerAudio playerAudio;
+
+	[SerializeField]private AudioClip running;
+	[SerializeField]private AudioClip sliding;
+	[SerializeField]private AudioClip[] jumpSounds;
 
     void Start () 
     {
@@ -17,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 		jump = 2000;
 		gravity = -7000;
 		isFalling = false;
-
+		playerAudio = GameObject.FindObjectOfType<PlayerAudio> ();
     }
 
     private void FixedUpdate()
@@ -26,12 +31,19 @@ public class PlayerMovement : MonoBehaviour
 		rigidBody.AddForce (0,gravity,0);
     }
 
+	private void Run()
+	{
+		isFalling = false;
+		playerAudio.PlayAudio (running,true);
+	}
+
     public void Jump()
     {
 		if (!isFalling)
 		{
-			rigidBody.AddForce (new Vector3 (0, jump, 0), ForceMode.Impulse);
 			isFalling = true;
+			rigidBody.AddForce (new Vector3 (0, jump, 0), ForceMode.Impulse);
+			playerAudio.PlayAudio(jumpSounds[Random.Range(0,jumpSounds.Length)],false);
 		}
     }
 
@@ -40,13 +52,13 @@ public class PlayerMovement : MonoBehaviour
 		float posX = transform.position.x;
 		switch (num)
 		{
-		case 1:
-		transform.position = new Vector3 (posX-=1.5f,transform.position.y,transform.position.z);
-		break;
+			case 1:
+			transform.position = new Vector3 (posX-=1.5f,transform.position.y,transform.position.z);
+			break;
 
-		case 2:
-		transform.position = new Vector3 (posX+=1.5f,transform.position.y,transform.position.z);
-		break;
+			case 2:
+			transform.position = new Vector3 (posX+=1.5f,transform.position.y,transform.position.z);
+			break;
 		}
 		
 	}
@@ -63,11 +75,22 @@ public class PlayerMovement : MonoBehaviour
 		transform.localScale = new Vector3 (1f,1f,1f);
 	}
 
-    private void OnCollisionEnter(Collision other)
-    {
-		if (other.gameObject.CompareTag (Tags.ground))
+	void Update()
+	{
+		CheckState ();
+	}
+
+	private void CheckState()
+	{
+		if (Physics.Raycast (transform.position, Vector3.down, out hit))
 		{
-			isFalling = false;
+			if (hit.collider.CompareTag (Tags.ground))
+			{
+				if (hit.distance == 1)
+				{
+					Run ();
+				}
+			}
 		}
-    }
+	}
 }
