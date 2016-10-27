@@ -11,19 +11,19 @@ public class StartscreenInput : MonoBehaviour
 	[SerializeField] private Button back;
 
 	//script references
-	private SceneSwitcher switcher;
 	private QuitGame quitGame;
 	private SwitchInstructionsScreen instructionScreen;
+	private LoadGame loadGame;
 
 	private void Start()
 	{
 		//Set References
 		quitGame = GetComponent<QuitGame> ();
-		switcher = GetComponent<SceneSwitcher> ();
 		instructionScreen = GetComponent<SwitchInstructionsScreen> ();
+		loadGame = GetComponent<LoadGame> ();
 
 		//Button onclick listeners
-		play.onClick.AddListener (delegate(){switcher.GameScene();});
+		play.onClick.AddListener (delegate(){loadGame.LoadScene();});
 		instruction.onClick.AddListener (delegate(){instructionScreen.OpenScreen();});
 		quit.onClick.AddListener (delegate(){quitGame.Quit();});
 		back.onClick.AddListener (delegate(){instructionScreen.CloseScreen();});
